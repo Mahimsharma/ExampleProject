@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">ExampleProject</string>
+    <string name="app_name">Banuba Example</string>
+
+    <!-- VIDEO EDITOR TOKEN -->
+    <!-- Please contact Banuba https://www.banuba.com/video-editor-sdk to get this token -->
+    <string name="banuba_token">"T74ZBv24JjfjH9F6tkMC2jRKfEC8pkAjGbiOTzWJ30iLqFrGtx58IGbBBricH+1u4LclaH/vP64BST20B0X1doNpvsKXdu+bEOsmZa+GwmsHkbIreW2Ijy/nzUjIjLPlXBWvZJNeuLUR0lnFViMbVAD43wFcdP1fhML/j5fRp141YGohRkf/MRuFdhaPROJvS7hjdZRrsYHOcd31xi6CLGgvJxnqGrnqCVeVizqWr0WoQ+krz4q2ec9T7P8doGXt3yx3+70dgrCVhedn0tTpr6xq5hVCwBt6zrO8p8dChQQAcW+3p5opSaBM+Dm72LEpAjPSSqL68no395GebT38JvFXmZTK01xUVHNKjVzNnj4sUVkR3GGkh0xDiIUVKgZsVuoEqRaYhWPgq92iYQoSIrY1v/3wLtWuFjF2qLJccNkzgVlhyhaW8Z2TMwtFCtiYUQGe/b1MANfsMqMCpxUoxbbAixkupuqQ+Vo2S5RckDbWgX1daVLiPWd0ro1m2jF2MAp5OrZb3WWCOfyHiBOJavPNbwlpSxoXcdZAASmUBEX7I+aF+krKqiTWzkzl/0FFCa52vleb5A76VJakbxdLxmJUf+p+ZY7sPA5ZW64Phq72X0Nlj4F+S/EVo2CRI0YNLj/h7LoIXVqUiPsZxnt/utOBnpR70WtBWrAanfM4uM44OEY2LhNhbglOYnHPOm/RVOLbWOTy4fNVALIDLuB3KKwnc+S0DNgppTBmZ/tiM1gq/Mm8HpPZaD5Jt1Z/x1FpSp52YLIsiE3DUEfr04PTcj8lmOxEtyyGqKS7C4sa2Jdo7cnF3SOPpOGcHjSc34pQJ9mrDdMVOKecAQmjGJ4oqyGpuGwW8hc7KX5rDa1BokJSZCklJcw1ii2/y9Iu43RJBUbrMhBMqfB7MKHwiiU5dgYvzrt4ok65QBanBQpezAtNaskYMoktWmsDqe73eBj21VhYs9G26akihffcmgsoUSc18XUJUZ3C9PyP7RJw49Zv1PvL3qFKUEPQ2o3s2rAERRBmRHaXawwwZz39OZV6KP4j08AT6oAyqVxYpN4jq8tfgOySlS43SNVZcV1rEpXma/wGmbm39B38wpLfEAAlc8dm/TMb12XclW8ZIxwpkOkZAyqT5iBpx2lbrnU9YTKMHw=="</string>
+
+    <!-- AUDIO BROWSER MUBERT -->
+    <string name="mubert_api_key">PUT YOUR PERSONAL MUBERT KEY</string>
 </resources>

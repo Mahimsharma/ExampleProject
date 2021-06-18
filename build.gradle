@@ -6,6 +6,7 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.2.1"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -14,6 +15,24 @@ buildscript {
 
 allprojects {
     repositories {
+        def banubaRepoUser = "Banuba"
+        def banubaRepoPassword = "\u0038\u0036\u0032\u0037\u0063\u0035\u0031\u0030\u0033\u0034\u0032\u0063\u0061\u0033\u0065\u0061\u0031\u0032\u0034\u0064\u0065\u0066\u0039\u0062\u0034\u0030\u0063\u0063\u0037\u0039\u0038\u0063\u0038\u0038\u0066\u0034\u0031\u0032\u0061\u0038"
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Banuba/banuba-ve-sdk")
+            credentials {
+                username = banubaRepoUser
+                password = banubaRepoPassword
+            }
+        }
+        maven {
+            name = "ARCloudPackages"
+            url = uri("https://maven.pkg.github.com/Banuba/banuba-ar")
+            credentials {
+                username = banubaRepoUser
+                password = banubaRepoPassword
+            }
+        }
         google()
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
