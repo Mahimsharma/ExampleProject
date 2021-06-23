@@ -12,6 +12,21 @@
     <color name="violet_red_20">#33FA3E76</color>
     <color name="catskill_white">#E3E9F1</color>
 
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="foxyPinkLight">#FF585D</color>
+    <color name="foxyPink">#FF4B84</color>
+    <color name="subtitle">#979BAA</color>
+    <color name="subtitleLight">#CBCECF</color>
+    <color name="borderFill">#f9f9f9</color>
+    <color name="border">#e4e4e4</color>
+    <color name="foxyBlue">#4990e2</color>
+    <color name="fbBlue">#3B5998</color>
+    <color name="foxyGreen">#009688</color>
+    <color name="lightGreen">#1A01B460</color>
+    <color name="foxyRed">#F86262</color>
+
     <array name="progress_gradient_colors">
         <item>@color/egg_blue</item>
         <item>@color/white</item>

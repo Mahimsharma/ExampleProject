@@ -11,7 +11,7 @@
     "keepVideoOnExit": true,
     "supportsEditorLinkOnVideo": false,
     "stickersApiKey": "dKtjFedpChC8B9QOW7JHeLFRwQ3VNMwd",
-    "showConfig": true,
+    "showConfig": false,
     "supportsTrimRecordedVideo": true,
     "interactions": {
       "question": true,
