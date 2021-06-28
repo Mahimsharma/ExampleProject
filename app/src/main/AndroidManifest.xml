@@ -28,6 +28,10 @@
             android:windowSoftInputMode="adjustResize"
             tools:replace="android:theme"
             />
+        <service
+            android:name=".ui.uploads.UploadService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>
