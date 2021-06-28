@@ -1,7 +1,9 @@
 package com.example.exampleproject;
 
 import android.os.Bundle;
+import android.util.Log;
 
+import com.banuba.sdk.veui.ui.ExportResult;
 import com.example.exampleproject.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -33,5 +35,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
-
+    public static void onResult(ExportResult exportResult){
+        Log.d("video exported", "onResult: "+ exportResult.toString());
+    }
 }
