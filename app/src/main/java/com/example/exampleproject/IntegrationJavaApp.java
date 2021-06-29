@@ -23,7 +23,7 @@ public class IntegrationJavaApp extends Application {
         startKoin(GlobalContext.INSTANCE, koinApplication -> {
             androidContext(koinApplication, this);
             koinApplication.modules(
-//                    new AudioBrowserKoinModule().getModule(), // use this module only if you bought it
+                    new AudioBrowserKoinModule().getModule(), // use this module only if you bought it
                     new ArCloudKoinModule().getModule(),
                     new TokenStorageKoinModule().getModule(),
                     new VideoEditorKoin().getModule(),

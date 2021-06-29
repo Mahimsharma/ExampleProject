@@ -1,12 +1,16 @@
 package com.example.exampleproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.banuba.example.integrationapp.videoeditor.IntegrationAppExportVideoContract;
+import com.banuba.sdk.ve.flow.VideoCreationActivity;
 import com.banuba.sdk.veui.ui.ExportResult;
 import com.example.exampleproject.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -17,6 +21,8 @@ import androidx.navigation.ui.NavigationUI;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    public ActivityResultLauncher createVideoRequest;
+    static IntegrationAppExportVideoContract integrationAppExportVideoContract = new IntegrationAppExportVideoContract();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        createVideoRequest =  registerForActivityResult(integrationAppExportVideoContract,this::onResult);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -35,7 +42,13 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
-    public static void onResult(ExportResult exportResult){
+
+    public void onButtonClick(){
+        Log.d("CLICK", "onButtonClick: ");
+        Intent videoCreationIntent =  VideoCreationActivity.buildIntent(this,null,null);
+        createVideoRequest.launch(videoCreationIntent);
+    }
+    private void onResult(ExportResult exportResult){
         Log.d("video exported", "onResult: "+ exportResult.toString());
     }
 }

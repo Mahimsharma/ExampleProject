@@ -34,15 +34,15 @@ class IntegrationAppExportParamsProvider(
             .build()
 
         return listOf(
-            ExportManager.Params.Builder(sizeProvider.provideOptimalExportVideoSize())
-                .effects(effects.withWatermark(watermarkBuilder, WatermarkAlignment.BOTTOM_RIGHT))
-                .fileName("export_default_watermark")
-                .videoList(videoList)
-                .destDir(exportSessionDir)
-                .musicEffects(musicEffects)
-                .extraAudioFile(extraSoundtrackUri)
-                .volumeVideo(videoVolume)
-                .build(),
+//            ExportManager.Params.Builder(sizeProvider.provideOptimalExportVideoSize())
+//                .effects(effects.withWatermark(watermarkBuilder, WatermarkAlignment.BOTTOM_RIGHT))
+//                .fileName("export_default_watermark")
+//                .videoList(videoList)
+//                .destDir(exportSessionDir)
+//                .musicEffects(musicEffects)
+//                .extraAudioFile(extraSoundtrackUri)
+//                .volumeVideo(videoVolume)
+//                .build(),
             ExportManager.Params.Builder(sizeProvider.provideOptimalExportVideoSize())
                 .effects(effects)
                 .fileName("export_default")

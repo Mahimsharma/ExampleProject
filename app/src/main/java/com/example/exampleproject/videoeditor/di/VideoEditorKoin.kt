@@ -52,7 +52,7 @@ class VideoEditorKoin : FlowEditorModule() {
     override val exportParamsProvider: BeanDefinition<ExportParamsProvider> =
         factory(override = true) {
             IntegrationAppExportParamsProvider(
-                exportDir = Uri.parse("file:///storage/emulated/0/DCIM/VideoEditor/"),
+                exportDir = Uri.parse("file:///storage/emulated/0/DCIM/VideoEditor"),
                 sizeProvider = get(),
                 watermarkBuilder = get()
             )
