@@ -8,7 +8,8 @@
     <TextView android:text="Select and upload your videos" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button_label"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -25,7 +26,8 @@
         android:layout_below="@+id/button"
         android:layout_centerHorizontal="true"
         android:autoLink="web"
-        android:gravity="center_horizontal" />
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="40dp"/>
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
