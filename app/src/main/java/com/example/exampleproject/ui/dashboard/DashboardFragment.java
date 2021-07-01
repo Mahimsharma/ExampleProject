@@ -23,6 +23,7 @@ public class DashboardFragment extends Fragment {
     private ViewPager2 viewPager;
     String[] links ={"https://web.law.duke.edu/cspd/contest/videos/Framed-Contest_Documentaries-and-You.mp4","https://media.geeksforgeeks.org/wp-content/uploads/20201217163353/Screenrecorder-2020-12-17-16-32-03-350.mp4"};
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel =
@@ -34,10 +35,10 @@ public class DashboardFragment extends Fragment {
         viewPager = root.findViewById(R.id.viewPager);
         ArrayList<VideoModel> list = new ArrayList<>();
         for(int i = 0;i<5;i++){
-            list.add(new VideoModel(links[0],"title"+i, ""));
+            list.add(new VideoModel(links[1],"title"+i, ""));
         }
 
-        Log.d("LIST", "onCreate: "+ list.get(0).getUrl());
+        Log.d("LIST", "onCreate: "+ list.get(1).getUrl());
         VideoAdapter adapter = new VideoAdapter(list);
         viewPager.setAdapter(adapter);
         return root;

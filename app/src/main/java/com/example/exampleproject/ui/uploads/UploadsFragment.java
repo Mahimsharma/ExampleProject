@@ -20,6 +20,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.exampleproject.databinding.FragmentUploadsBinding;
 
+import java.io.IOException;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 import static androidx.core.content.ContextCompat.startForegroundService;
@@ -27,7 +33,8 @@ import static androidx.core.content.ContextCompat.startForegroundService;
 public class UploadsFragment extends Fragment {
 
     private final int REQUEST_FILE_SELECT = 1;
-
+    private final String guestToken = "f22578f0-d589-11eb-a0d3-1f8408c16c5f";
+    private final String authToken= "634593d7-2bd5-463c-9789-a54e29eb1a58";
     public TextView status;
     public Button pauseButton;
     public Button resumeButton;
@@ -120,6 +127,23 @@ public class UploadsFragment extends Fragment {
 
     private void saveUploadUri(String uri){
         sharedPreferences.edit().putString("fileUri", uri).apply();
+    }
+
+    private void makePostMediaCall() {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("https://api.foxy.in/api/v1/media")
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-type", "application/json")
+                .addHeader("x-auth-tokem", authToken)
+                .addHeader("x-guest-token", guestToken)
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

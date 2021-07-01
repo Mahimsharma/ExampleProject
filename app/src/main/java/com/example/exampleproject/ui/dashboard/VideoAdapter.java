@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.exampleproject.R;
+import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
@@ -72,7 +73,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                 String userAgent = Util.getUserAgent(context, "ExampleProject");
                 DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(context,userAgent);
                 exoPlayer = new SimpleExoPlayer.Builder(context).build();
-                MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(videoUri);
+                MediaItem item = new MediaItem.Builder().setUri(videoUri).build();
+                MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(item);
                 exoPlayerView.setPlayer(exoPlayer);
                 exoPlayer.prepare(mediaSource);
             } catch (Exception e) {
