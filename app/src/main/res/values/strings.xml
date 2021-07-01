@@ -4,5 +4,5 @@
     <string name="app_name">ExampleProject</string>
     <string name="title_home">Camera</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Upload</string>
+    <string name="title_notifications">Create</string>
 </resources>

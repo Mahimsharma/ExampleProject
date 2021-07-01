@@ -18,7 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.exampleproject.MainActivity;
 import com.example.exampleproject.databinding.FragmentUploadsBinding;
+import com.example.exampleproject.utils.OnSwipeTouchListener;
 
 import java.io.IOException;
 
@@ -53,6 +55,14 @@ public class UploadsFragment extends Fragment {
 
         binding = FragmentUploadsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        OnSwipeTouchListener onSwipeTouchListener = onSwipeTouchListener = new OnSwipeTouchListener(getContext()) {
+            public void onSwipeRight() {
+            }
+            public void onSwipeLeft() {
+                ((MainActivity)getActivity()).onButtonClick();
+            }
+        };
+        root.setOnTouchListener(onSwipeTouchListener);
         Button button = binding.button;
         status = binding.status;
         pauseButton = binding.pauseButton;
@@ -67,8 +77,7 @@ public class UploadsFragment extends Fragment {
             readFileIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
                     | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
             Log.d("FILE_PERMISSION", "Asking for persistable uri");
-        }
-        else readFileIntent.setAction(Intent.ACTION_GET_CONTENT);
+        } else readFileIntent.setAction(Intent.ACTION_GET_CONTENT);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
