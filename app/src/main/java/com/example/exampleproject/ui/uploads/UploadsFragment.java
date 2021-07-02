@@ -107,7 +107,6 @@ public class UploadsFragment extends Fragment {
         };
 
         resumeButton.setOnClickListener(onClickListener);
-
         return root;
     }
 

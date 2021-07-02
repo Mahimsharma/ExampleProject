@@ -62,8 +62,8 @@ public class UploadService extends Service {
         Log.d("UPLOAD_SERVICE", "onStartCommand: " +action);
 
         switch (action){
-            case "pause":
-                pauseUpload();
+            case "cancel":
+                cancelUpload();
                 break;
             case "retry":
                 SharedPreferences sharedPreferences = getSharedPreferences("Uri",MODE_PRIVATE);
@@ -84,7 +84,7 @@ public class UploadService extends Service {
                 resumeUpload(uriString);
                 break;
             default:
-                stopSelf();
+                cancelUpload();
                 return START_NOT_STICKY;
         }
         return START_STICKY;
@@ -118,13 +118,13 @@ public class UploadService extends Service {
     }
 
     void showError(Exception e) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-        builder.setTitle("Internal error");
-        builder.setMessage(e.getMessage());
-        AlertDialog dialog = builder.create();
-        if(activity != null) {
+        if(UploadsFragment.uploadsFragment.getContext() != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(UploadsFragment.uploadsFragment.getContext());
+            builder.setTitle("Internal error");
+            builder.setMessage(e.getMessage());
+            AlertDialog dialog = builder.create();
             Log.d("ACTIVITY", "showError:"+activity.toString());
-//            dialog.show();
+            dialog.show();
             e.printStackTrace();
         }
     }
@@ -140,7 +140,7 @@ public class UploadService extends Service {
             uploadTask = new UploadTask(this, client, upload, notificationBuilder);
             uploadTask.execute(new Void[0]);
         } catch (Exception e) {
-            showError(e);
+           showError(e);
         }
     }
 
@@ -168,5 +168,9 @@ public class UploadService extends Service {
         notificationBuilder.setProgress(100,0,true);
         manager.notify(1,notificationBuilder.build());
         uploadTask.cancel(false);
+    }
+    public void cancelUpload() {
+        uploadTask.cancel(true);
+        stopForeground(true);
     }
 }
