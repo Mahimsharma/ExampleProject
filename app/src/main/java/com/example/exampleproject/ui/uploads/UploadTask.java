@@ -1,7 +1,9 @@
 package com.example.exampleproject.ui.uploads;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -57,6 +59,10 @@ class UploadTask extends AsyncTask<Void, Long, URL> {
         activity.setResumeButtonEnabled(false);
         updateNotification("post-execute");
 
+        //saving/adding url to the saved list urls of uploaded videos
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("Uri", Context.MODE_PRIVATE);
+        String urls = sharedPreferences.getString("urlList","");
+        sharedPreferences.edit().putString("urlList",uploadURL.toString()+","+urls).apply();
     }
 
     @Override

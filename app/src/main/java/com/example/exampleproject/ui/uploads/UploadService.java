@@ -140,6 +140,7 @@ public class UploadService extends Service {
             uploadTask = new UploadTask(this, client, upload, notificationBuilder);
             uploadTask.execute(new Void[0]);
         } catch (Exception e) {
+           stopForeground(true);
            showError(e);
         }
     }

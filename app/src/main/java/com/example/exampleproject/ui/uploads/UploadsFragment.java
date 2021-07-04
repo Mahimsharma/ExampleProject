@@ -110,7 +110,8 @@ public class UploadsFragment extends Fragment {
         return root;
     }
 
-    private void beginUpload(Uri uri) {
+    public void beginUpload(Uri uri) {
+        saveUploadUri(uri.toString());
         Intent uploadIntent = new Intent(getContext(),UploadService.class);
         uploadIntent.putExtra("action","upload");
         uploadIntent.putExtra("fileUri",uri.toString());
@@ -128,7 +129,6 @@ public class UploadsFragment extends Fragment {
         if (requestCode == REQUEST_FILE_SELECT) {
             Uri uri = data.getData();
             getActivity().getContentResolver().takePersistableUriPermission(uri,Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            saveUploadUri(uri.toString());
             beginUpload(uri);
         }
     }

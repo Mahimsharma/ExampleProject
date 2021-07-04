@@ -51,14 +51,14 @@ class IntegrationAppExportParamsProvider(
                 .musicEffects(musicEffects)
                 .volumeVideo(videoVolume)
                 .build(),
-            ExportManager.Params.Builder(VideoResolution.VGA360)
-                .effects(effects.withWatermark(watermarkBuilder, WatermarkAlignment.BOTTOM_RIGHT))
-                .fileName("export_360_watermark")
-                .videoList(videoList)
-                .destDir(exportSessionDir)
-                .musicEffects(musicEffects)
-                .volumeVideo(videoVolume)
-                .build()
+//            ExportManager.Params.Builder(VideoResolution.VGA360)
+//                .effects(effects.withWatermark(watermarkBuilder, WatermarkAlignment.BOTTOM_RIGHT))
+//                .fileName("export_360_watermark")
+//                .videoList(videoList)
+//                .destDir(exportSessionDir)
+//                .musicEffects(musicEffects)
+//                .volumeVideo(videoVolume)
+//                .build()
         )
     }
 }
