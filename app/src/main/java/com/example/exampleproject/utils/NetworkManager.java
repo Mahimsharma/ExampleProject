@@ -6,8 +6,9 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 
 public class NetworkManager {
+    private static ConnectivityManager cm;
     public static boolean isOnline(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnected()) {
             return true;
@@ -17,9 +18,9 @@ public class NetworkManager {
     }
 
     public static int getUploadSpeed(Context context){
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        boolean isOnline = isOnline(context);
         NetworkCapabilities nc = cm.getNetworkCapabilities(cm.getActiveNetwork());
+        if(! isOnline) return  0;
         int upSpeed = nc.getLinkUpstreamBandwidthKbps();
         return upSpeed;
     }

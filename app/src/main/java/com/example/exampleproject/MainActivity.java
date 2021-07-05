@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void onResult(ExportResult exportResult){
         String uriString = exportResult.toString();
+        if(!uriString.contains("SUCCESS")) return;
         int start = uriString.indexOf("fileUri");
         int end = uriString.indexOf(',',start);
         String uri = uriString.substring(start,end).replace("fileUri=","file://");
