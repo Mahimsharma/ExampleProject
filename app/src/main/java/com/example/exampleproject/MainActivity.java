@@ -63,13 +63,14 @@ public class MainActivity extends AppCompatActivity {
     }
     private void onResult(ExportResult exportResult){
         String uriString = exportResult.toString();
-        if(!uriString.contains("SUCCESS")) return;
+        if(!uriString.contains("Success")) {
+            return;
+        }
         int start = uriString.indexOf("fileUri");
         int end = uriString.indexOf(',',start);
         String uri = uriString.substring(start,end).replace("fileUri=","file://");
-//        uri = uri.substring(0,uri.lastIndexOf('/'));
         saveVideo(uri);
-        Log.d("video exported", "onResult: "+ uri);
+        Log.d("video exported", "onResult: "+ uriString);
     }
 
     public void uploadVideo(Uri uri){
@@ -82,18 +83,18 @@ public class MainActivity extends AppCompatActivity {
     public void saveVideo(String uri){
         Toast.makeText(this,"saving video",Toast.LENGTH_SHORT).show();
         String videoFileName = "video_" + System.currentTimeMillis() + ".mp4";
-        ContentValues valuesvideos;
-        valuesvideos = new ContentValues();
-        valuesvideos.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/Foxy");
-        valuesvideos.put(MediaStore.Video.Media.TITLE, videoFileName);
-        valuesvideos.put(MediaStore.Video.Media.DISPLAY_NAME, videoFileName);
-        valuesvideos.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
-        valuesvideos.put(MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
-        valuesvideos.put(MediaStore.Video.Media.DATE_TAKEN, System.currentTimeMillis());
-        valuesvideos.put(MediaStore.Video.Media.IS_PENDING, 1);
+        ContentValues valuesVideos;
+        valuesVideos = new ContentValues();
+        valuesVideos.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/Foxy");
+        valuesVideos.put(MediaStore.Video.Media.TITLE, videoFileName);
+        valuesVideos.put(MediaStore.Video.Media.DISPLAY_NAME, videoFileName);
+        valuesVideos.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
+        valuesVideos.put(MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
+        valuesVideos.put(MediaStore.Video.Media.DATE_TAKEN, System.currentTimeMillis());
+        valuesVideos.put(MediaStore.Video.Media.IS_PENDING, 1);
         ContentResolver resolver = this.getContentResolver();
         Uri collection = MediaStore.Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
-        Uri uriSavedVideo = resolver.insert(collection, valuesvideos);
+        Uri uriSavedVideo = resolver.insert(collection, valuesVideos);
 
         ParcelFileDescriptor pfd;
 
@@ -120,9 +121,9 @@ public class MainActivity extends AppCompatActivity {
         }
         Toast.makeText(this,"Completed process",Toast.LENGTH_SHORT).show();
 
-        valuesvideos.clear();
-        valuesvideos.put(MediaStore.Video.Media.IS_PENDING, 0);
-        this.getContentResolver().update(uriSavedVideo, valuesvideos, null, null);
+        valuesVideos.clear();
+        valuesVideos.put(MediaStore.Video.Media.IS_PENDING, 0);
+        this.getContentResolver().update(uriSavedVideo, valuesVideos, null, null);
         uploadVideo(uriSavedVideo);
     }
 }

@@ -20,6 +20,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.example.exampleproject.R;
+import com.example.exampleproject.utils.NetworkManager;
 
 import java.net.URL;
 
@@ -35,16 +36,25 @@ public class UploadService extends Service {
     private TusClient client;
     private UploadTask uploadTask;
     private Uri fileUri;
-    NotificationCompat.Builder notificationBuilder;
+    private NotificationCompat.Builder notificationBuilder;
     public static UploadService uploadService;
-    NotificationManager manager;
+    private NotificationManager manager;
+    private final int retryTimePeriod = 60; // in seconds
+    private final int retryTimeInterval = 2; // in seconds
+    public int countErrors = 0;
+    private boolean isRetrying = false;
+    public final String[] failureMessages= {"User cancelled","Something went wrong","Please try again with a better connection"};
+    public int cancellationReason = 2;
     @Override
     public void onCreate() {
         super.onCreate();
         uploadService = this;
         activity = UploadsFragment.uploadsFragment;
         manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        initTusClient();
+    }
 
+    private void initTusClient(){
         try {
             SharedPreferences pref = getSharedPreferences("tus", 0);
             client = new TusClient();
@@ -54,6 +64,7 @@ public class UploadService extends Service {
             showError(e);
         }
     }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
@@ -63,12 +74,15 @@ public class UploadService extends Service {
 
         switch (action){
             case "cancel":
+                cancellationReason = 0;
                 cancelUpload();
                 break;
             case "retry":
                 SharedPreferences sharedPreferences = getSharedPreferences("Uri",MODE_PRIVATE);
                 String string = sharedPreferences.getString("fileUri","");
                 Log.d("UPLOAD_SERVICE", "RETRY "+string);
+                cancellationReason = 2;
+                isRetrying = true;
                 resumeUpload(string);
                 break;
             case "upload":
@@ -84,6 +98,7 @@ public class UploadService extends Service {
                 resumeUpload(uriString);
                 break;
             default:
+                cancellationReason = 0;
                 cancelUpload();
                 return START_NOT_STICKY;
         }
@@ -110,8 +125,7 @@ public class UploadService extends Service {
       NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
               .setSmallIcon(R.mipmap.ic_launcher)
               .setPriority(NotificationCompat.PRIORITY_HIGH)
-              .setContentText("Starting upload...")
-              .setOngoing(true)
+              .setContentTitle("Starting upload...")
               .setOnlyAlertOnce(true)
               .setProgress(100, 0, true);
       return builder;
@@ -136,6 +150,10 @@ public class UploadService extends Service {
         }
         fileUri = Uri.parse(uriString);
         try {
+            if(client == null || notificationBuilder == null) {
+                initTusClient();
+                notificationBuilder = createNotification();
+            }
             TusUpload upload = new TusAndroidUpload(fileUri, this);
             uploadTask = new UploadTask(this, client, upload, notificationBuilder);
             uploadTask.execute(new Void[0]);
@@ -173,5 +191,32 @@ public class UploadService extends Service {
     public void cancelUpload() {
         uploadTask.cancel(true);
         stopForeground(true);
+    }
+
+    public void checkInternetPeriodically(){
+        uploadTask.updateNotification("pause");
+        isRetrying = false;
+        int i = 0;
+        while (i<retryTimePeriod && !isRetrying && cancellationReason != 0) {
+            Log.d("NETWORK_MANAGER", "retryUpload: "+ NetworkManager.isOnline(this) + ","+NetworkManager.getUploadSpeed(this));
+            i += retryTimeInterval;
+            if(NetworkManager.isOnline(this) && NetworkManager.getUploadSpeed(this)>50) {
+                Intent intent = new Intent(this,UploadService.class);
+                intent.putExtra("action","retry");
+                startService(intent);
+                break;
+            } else {
+                try {
+                    Thread.sleep(retryTimeInterval * 1000);
+                } catch (InterruptedException interruptedException) {
+                    interruptedException.printStackTrace();
+                    continue;
+                }
+            }
+        }
+        if(i>=retryTimePeriod) {
+            cancellationReason = 2;
+            uploadTask.cancel(true);
+        }
     }
 }
