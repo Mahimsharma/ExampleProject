@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -12,10 +13,12 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.exampleproject.R;
 import com.example.exampleproject.utils.NetworkManager;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.tus.java.client.ProtocolException;
 import io.tus.java.client.TusClient;
 import io.tus.java.client.TusUpload;
 import io.tus.java.client.TusUploader;
@@ -30,7 +33,8 @@ class UploadTask extends AsyncTask<Void, Long, URL> {
     private NotificationManagerCompat notificationManager;
     private Intent actionIntent;
     private boolean hasUploadFailed = false;
-
+    long elapsedTime;
+    int sizeofChunkUploaded;
 
     public UploadTask(UploadService service, TusClient client, TusUpload upload, NotificationCompat.Builder builder) {
         this.service = service;
@@ -101,9 +105,13 @@ class UploadTask extends AsyncTask<Void, Long, URL> {
             // Upload file in 1MiB chunks
             uploader.setChunkSize(1024 * 1024);
             service.countErrors = 0;
-            while(!isCancelled() && uploader.uploadChunk() > 0) {
+            while(!isCancelled() && uploadChunk(uploader) > 0) {
+                double speed = ((double)sizeofChunkUploaded/elapsedTime);
                 uploadedBytes = uploader.getOffset();
                 publishProgress(uploadedBytes, totalBytes);
+                long bytesRemaining = upload.getSize() - uploadedBytes;
+                int timeRemaining = (int)((double)(bytesRemaining/speed)/ 1000000000);
+                estimateTime(timeRemaining);
             }
 
             uploader.finish();
@@ -122,6 +130,14 @@ class UploadTask extends AsyncTask<Void, Long, URL> {
         return null;
     }
 
+    public int uploadChunk(TusUploader uploader) throws IOException, ProtocolException {
+        long start = System.nanoTime();
+        sizeofChunkUploaded = uploader.uploadChunk();
+        elapsedTime = System.nanoTime() - start;
+
+        return sizeofChunkUploaded;
+    }
+
     public void updateNotification(String action) {
         switch (action) {
             case "pre-execute":
@@ -130,7 +146,7 @@ class UploadTask extends AsyncTask<Void, Long, URL> {
 
                 notificationBuilder.setProgress(100,0,false)
                         .setContentTitle("Uploading")
-                        .setContentText("Estimated 2 minutes remaining")
+                        .setContentText("Calculating remaining time..")
                         .clearActions()
                         .addAction(R.mipmap.ic_launcher,"Cancel",cancelPendingIntent);
                 notificationManager.notify(1, notificationBuilder.build());
@@ -178,5 +194,31 @@ class UploadTask extends AsyncTask<Void, Long, URL> {
         list.add(pendingIntent);
         list.add(pendingIntent2);
         return list;
+    }
+
+    int k = 0; int time=0; String timeMessage;
+    public void estimateTime(int timeRemaining){
+        k += 1;
+        time += timeRemaining;
+        if(k==10){
+            int aggRemainingTime = (int)time/10;
+            if(aggRemainingTime <10){
+                timeMessage = "About to complete..";
+            } else if(aggRemainingTime < 30) {
+                timeMessage = "About 30 seconds remaining..";
+            } else if (aggRemainingTime < 60){
+                timeMessage = "About a minute remaining..";
+            } else if(aggRemainingTime < 120){
+                timeMessage = "About 2 minutes remaining..";
+            } else if(aggRemainingTime > 120){
+                aggRemainingTime /= 60;
+                timeMessage = "About "+aggRemainingTime+" minutes remaining..";
+            }
+            notificationBuilder.setContentText(timeMessage);
+            notificationManager.notify(1, notificationBuilder.build());
+            Log.d("UPLOAD_TIME", "Aggregate Time: "+aggRemainingTime);
+            k=0;
+            time=0;
+        }
     }
 }
