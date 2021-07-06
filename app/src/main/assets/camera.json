@@ -12,7 +12,7 @@
   "textOnMaskColorCountOnPage": -1,
   "switchFacingOnDoubleTap": true,
   "saveLastCameraFacing": true,
-  "useFixedFPS30": true,
+  "useFixedFPS30": false,
   "showDebugViews": false,
   "showConfig": false,
   "banubaMasksAssetsPath": "effects",

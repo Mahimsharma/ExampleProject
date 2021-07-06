@@ -64,7 +64,7 @@ class UploadTask extends AsyncTask<Void, Long, URL> {
         //saving/adding url to the saved list urls of uploaded videos
         SharedPreferences sharedPreferences = service.getSharedPreferences("Uri", Context.MODE_PRIVATE);
         String urls = sharedPreferences.getString("urlList","");
-        sharedPreferences.edit().putString("urlList",uploadURL.toString()+","+urls).apply();
+        sharedPreferences.edit().putString("urlList",uploadURL.toString()+","+urls).commit();
     }
 
     @Override
